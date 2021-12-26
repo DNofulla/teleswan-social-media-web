@@ -38,6 +38,7 @@ export const useAuth = () => {
       alert("An error has occurred! Don't leave Empty Fields!");
       hasError = true;
     } else if (
+      // eslint-disable-next-line
       !/^[a-zA-Z0-9._][^~`!@#$%^&*()\-+={}\[ \];:'"<|>,/?]{4,24}$/.test(
         username,
       )
@@ -47,6 +48,7 @@ export const useAuth = () => {
       );
       hasError = true;
     } else if (
+      // eslint-disable-next-line
       !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~`!@#$%^&*()_\-+={}\[ \];:'"<|>,./?])(?=.*[a-zA-Z]).{8,24}$/.test(
         password,
       )
@@ -66,6 +68,7 @@ export const useAuth = () => {
 
     if (hasError === false) {
       try {
+        // eslint-disable-next-line
         let res = await fetch("http://192.168.1.148:8080/users/register", {
           method: "POST",
           headers: {
@@ -169,6 +172,7 @@ export const useAuth = () => {
 
   const logout = async (history, setState) => {
     try {
+      // eslint-disable-next-line
       let res = await fetch("http://192.168.1.148:8080/users/logout", {
         method: "DELETE",
         headers: {

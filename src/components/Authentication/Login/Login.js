@@ -24,9 +24,9 @@ export default function Login() {
 
   useEffect(() => {
     const ac = new AbortController();
-
+    setState({});
     return () => ac.abort();
-  }, []);
+  }, [setState]);
 
   const handleUsernameChange = (text) => {
     setUsername(text);

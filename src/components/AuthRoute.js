@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { useAuthState } from "../utils/AuthContext";
 
 export const AuthRoute = ({ component: Component, ...rest }) => {
-  const { state, setState } = useAuthState();
+  const { state } = useAuthState();
 
   return (
     <Route
