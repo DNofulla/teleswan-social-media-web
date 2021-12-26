@@ -12,9 +12,11 @@ import {
 } from "./login.styled";
 import { useHistory } from "react-router";
 import logo from "../../../assets/TeleSwanMediaLogo-DarkMode.png";
+import { useAuthState } from "../../../utils/AuthContext";
 
 export default function Login() {
   const history = useHistory();
+  const { state, setState } = useAuthState();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,11 +54,27 @@ export default function Login() {
 
         const json = await res.json();
 
-        console.log(json);
+        // console.log(json);
 
         try {
           const jsonValue = JSON.stringify(json);
           await localStorage.setItem("@session", jsonValue);
+
+          const session = JSON.parse(localStorage.getItem("@session"));
+
+          let authCondition =
+            session &&
+            Date.parse(session.cookie.expires) > Date.now() &&
+            session.sessionID &&
+            session.passport.user;
+
+          setState({
+            isAuth: authCondition ? true : false,
+            user: authCondition ? session.passport.user : null,
+            sessionID: authCondition ? session.sessionID : null,
+          });
+
+          // console.log(state);
         } catch (e) {
           console.log(`Error storing session to Local Storage: \n${e}`);
         }

@@ -12,7 +12,6 @@ import {
 } from "./register.styled";
 import { useHistory } from "react-router";
 import logo from "../../../assets/TeleSwanMediaLogo-DarkMode.png";
-import Axios from "axios";
 
 export default function Register() {
   const history = useHistory();

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import {} from "./feed.styled";
+import { useAuthState } from "../../utils/AuthContext";
+import { Redirect } from "react-router-dom";
 
 export default function WelcomePage() {
   const history = useHistory();
+  const { state, setState } = useAuthState();
 
   const handleLogout = async () => {
     try {
@@ -15,6 +18,12 @@ export default function WelcomePage() {
         },
       });
       await localStorage.removeItem("@session");
+
+      setState({
+        isAuth: false,
+        user: null,
+        sessionID: null,
+      });
 
       history.push("/");
     } catch (err) {
