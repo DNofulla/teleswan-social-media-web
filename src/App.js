@@ -10,7 +10,7 @@ import { AuthRoute } from "./components/AuthRoute";
 import { PublicRoute } from "./components/PublicRoute";
 
 function App() {
-  const { state, setState } = useAuthState();
+  const { setState } = useAuthState();
 
   useEffect(() => {
     const ac = new AbortController();
@@ -30,7 +30,7 @@ function App() {
     });
 
     return () => ac.abort();
-  }, []);
+  }, [setState]);
 
   return (
     <>

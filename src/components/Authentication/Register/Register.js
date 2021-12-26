@@ -12,9 +12,11 @@ import {
 } from "./register.styled";
 import { useHistory } from "react-router";
 import logo from "../../../assets/TeleSwanMediaLogo-DarkMode.png";
+import { useAuth } from "../../../utils/AuthContext";
 
 export default function Register() {
   const history = useHistory();
+  const { register } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,16 +24,13 @@ export default function Register() {
 
   const handleUsernameChange = (text) => {
     setUsername(text);
-    console.log("Username: " + text);
   };
   const handlePasswordChange = (text) => {
     setPassword(text);
-    console.log("Password: " + text);
   };
 
   const handleEmailChange = (text) => {
     setEmail(text);
-    console.log("Email: " + text);
   };
 
   const toLowerCase = () => {
@@ -39,89 +38,16 @@ export default function Register() {
     setEmail(email.toString().toLowerCase());
   };
 
-  const handleRegister = async () => {
-    let hasError = false;
-
-    if (!username || !password || !email) {
-      alert("An error has occurred!", "Don't leave Empty Fields!", [
-        {
-          text: "OK",
-          onPress: () => console.log("Error Alert Closed!"),
-        },
-      ]);
-      hasError = true;
-    } else if (
-      !/^[a-zA-Z0-9._][^~`!@#$%^&*()\-+={}\[ \];:'"<|>,/?]{4,24}$/.test(
-        username,
-      )
-    ) {
-      alert(
-        "An error has occurred!",
-        "Please enter a username 4 to 24 characters long!",
-        [
-          {
-            text: "OK",
-            onPress: () => console.log("Error Alert Closed!"),
-          },
-        ],
-      );
-      hasError = true;
-    } else if (
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~`!@#$%^&*()_\-+={}\[ \];:'"<|>,./?])(?=.*[a-zA-Z]).{8,24}$/.test(
-        password,
-      )
-    ) {
-      alert(
-        "An error has occurred!",
-        "Please enter a password 8 to 24 characters long that contains at least 1 Upper Case letter, 1 Lower Case letter, 1 Number and 1 Special Character!",
-        [
-          {
-            text: "OK",
-            onPress: () => console.log("Error Alert Closed!"),
-          },
-        ],
-      );
-      hasError = true;
-    } else if (
-      !/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
-        email,
-      )
-    ) {
-      alert("An error has occurred! Please enter a valid email!");
-      hasError = true;
-    }
-
-    if (hasError === false) {
-      try {
-        let res = await fetch("http://192.168.1.148:8080/users/register", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            displayName: username,
-            email: email,
-            password: password,
-          }),
-        });
-
-        console.log(res.json());
-
-        alert("Success! Your account has been successfully created!");
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        history.push("/login");
-      } catch (error) {
-        console.error(error);
-        alert("An error has occurred! Please provide valid information!");
-        setUsername("");
-        setEmail("");
-        setPassword("");
-      }
-    }
+  const handleRegister = () => {
+    register(
+      username,
+      password,
+      email,
+      setUsername,
+      setPassword,
+      setEmail,
+      history,
+    );
   };
 
   return (
