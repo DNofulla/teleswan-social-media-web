@@ -115,7 +115,7 @@ export const useAuth = () => {
 
     if (hasError === false) {
       try {
-        let res = await fetch("http://192.168.1.148:8080/users/login", {
+        let res = await fetch("http://localhost:8080/users/login", {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -125,6 +125,7 @@ export const useAuth = () => {
             username: username,
             password: password,
           }),
+          credentials: "include",
         });
 
         const json = await res.json();
@@ -193,6 +194,8 @@ export const useAuth = () => {
       console.log(err);
     }
   };
+
+  const getUserDetails = async (history, setState) => {};
 
   return { register, login, logout };
 };
